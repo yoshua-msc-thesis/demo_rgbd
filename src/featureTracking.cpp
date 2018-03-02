@@ -193,11 +193,12 @@ void imageDataHandler(const sensor_msgs::Image::ConstPtr& imageData)
   sensor_msgs::PointCloud2 imagePointsLast2;
   pcl::toROSMsg(*imagePointsLast, imagePointsLast2);
   imagePointsLast2.header.stamp = ros::Time().fromSec(timeLast);
+  imagePointsLast2.header.frame_id = "camera_init";
   imagePointsLastPubPointer->publish(imagePointsLast2);
 
   showCount = (showCount + 1) % (showSkipNum + 1);
   if (showCount == showSkipNum) {
-    Mat imageShowMat(imageShow);
+    Mat imageShowMat = cvarrToMat(imageShow);
     bridge.image = imageShowMat;
     bridge.encoding = "mono8";
     sensor_msgs::Image::Ptr imageShowPointer = bridge.toImageMsg();
