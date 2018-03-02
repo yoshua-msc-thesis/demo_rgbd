@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="demo_rgbd" type="featureTracking_rgbd" name="featureTracking_rgbd" output="screen"/>
+  <node pkg="demo_rgbd" type="visualOdometry_rgbd" name="visualOdometry_rgbd" output="screen"/>
+  <node pkg="demo_rgbd" type="bundleAdjust_rgbd" name="bundleAdjust_rgbd" output="screen"/>
+  <node pkg="demo_rgbd" type="processDepthmap_rgbd" name="processDepthmap_rgbd" output="screen"/>
+  <node pkg="demo_rgbd" type="stackDepthPoint_rgbd" name="stackDepthPoint_rgbd" output="screen"/>
+  <node pkg="demo_rgbd" type="transformMaintenance_rgbd" name="transformMaintenance_rgbd" output="screen"/>
+  <node pkg="demo_rgbd" type="registerPointCloud_rgbd" name="registerPointCloud_rgbd" output="screen"/>
+
+  <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find demo_rgbd)/demo_rgbd.rviz"/>
+
+</launch>
