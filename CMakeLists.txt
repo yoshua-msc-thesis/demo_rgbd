@@ -4,17 +4,26 @@ project(demo_rgbd)
 set(CMAKE_BUILD_TYPE Release)
 
 find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
   roscpp
   sensor_msgs
   std_msgs
-  cv_bridge
-  pcl_ros
+  tf
+  # pcl_ros
+  pcl_catkin
+  isam
 )
 
 find_package(Eigen3 REQUIRED QUIET)
+
 find_package(PCL REQUIRED QUIET)
 set(OpenCV_DIR $ENV{OPENCV2_INSTALL_DIR})
 find_package(OpenCV 2 REQUIRED QUIET)
+
+catkin_package(
+  CATKIN_DEPENDS cv_bridge roscpp std_msgs sensor_msgs tf pcl_catkin isam
+  DEPENDS EIGEN3 OpenCV
+)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
@@ -25,20 +34,10 @@ include_directories(
 
 LIST(APPEND LINK_LIBS
   ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}
+  # ${PCL_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )
 
-catkin_package(
-  CATKIN_DEPENDS roscpp std_msgs sensor_msgs cv_bridge pcl_ros
-  DEPENDS EIGEN3 PCL OpenCV
-)
-
-SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-include_directories("${PROJECT_SOURCE_DIR}/include")
-
-add_subdirectory(isamlib)
-link_libraries(isamlib)
 
 add_executable(featureTracking_rgbd src/featureTracking.cpp)
 add_executable(visualOdometry_rgbd src/visualOdometry.cpp)
